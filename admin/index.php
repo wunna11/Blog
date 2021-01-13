@@ -14,15 +14,29 @@
   $numOfrecs = 2;
   $offset = ($pageno - 1) * $numOfrecs;
 
+  if(empty($_POST['search'])) {
+    $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
+    $stmt->execute();
+    $rawresult = $stmt->fetchAll();
+    $total_pages = ceil(count($rawresult) / $numOfrecs);
 
-  $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
-  $stmt->execute();
-  $rawresult = $stmt->fetchAll();
-  $total_pages = ceil(count($rawresult) / $numOfrecs);
+    $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+  } else {
+    $searchKey = $_POST['search'];
+    $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
+    $stmt->execute();
+    $rawresult = $stmt->fetchAll();
+    $total_pages = ceil(count($rawresult) / $numOfrecs);
 
-  $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
-  $stmt->execute();
-  $result = $stmt->fetchAll();
+    $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+    $stmt->execute();
+    $result = $stmt->fetchAll();
+  }
+
+
+  
 
 ?>
 
@@ -76,6 +90,7 @@
                   <?php endif; ?>  
                   </tbody>
                 </table><br>
+                
                   <nav aria-label="Page navigation example" style="float:right">
                   <ul class="pagination">
                     <li class="page-item"><a class="page-link" href="?pageno=1">First</a></li>
