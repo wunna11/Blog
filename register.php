@@ -15,9 +15,9 @@
     if($user) {
         echo "<script>alert('Your email is already exists.')</script>";
     } else {
-        $stmt = $pdo->prepare("INSERT INTO users(name,password,email) VALUES(:name,:password,:email)");
+        $stmt = $pdo->prepare("INSERT INTO users(name,email,password) VALUES(:name,:email,:password)");
         $result = $stmt->execute(
-            array(':name'=>$name,':password'=>$password,':email'=>$email)
+            array(':name'=>$name,':email'=>$email,':password'=>$password)
         );
         if($result) {
             echo "<script>alert('Successfully register');window.location.href='login.php';</script>";
@@ -87,7 +87,8 @@
         
           <!-- /.col -->
           <div class="container">
-            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <input type="submit" class="btn btn-primary btn-block" value="SUBMIT">
+            <!-- <button type="submit" class="btn btn-primary btn-block">Register</button> -->
             <a href="login.php" class="btn btn-success btn-block">Login</a>
           </div>
           <!-- /.col -->
