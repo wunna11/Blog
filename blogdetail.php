@@ -11,14 +11,14 @@
   $result = $stmt->fetchAll();
 
   $blogId = $_GET['id'];
-  $stmtcmt = $pdo->prepare("SELECT * FROM posts WHERE post_id=$blogId");
+  $stmtcmt = $pdo->prepare("SELECT * FROM comments WHERE post_id=$blogId");
   $stmtcmt->execute();
   $cmResult = $stmtcmt->fetchAll();
 
   $authorId = $cmResult[0]['author_id'];
-  $stmtauthor = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
-  $stmtauthor->execute();
-  $auResult = $stmtauthor->fetchAll();
+  $stmtau = $pdo->prepare("SELECT * FROM users WHERE id=$authorId");
+  $stmtau->execute();
+  $auResult = $stmtau->fetchAll();
 
 
   if($_POST) {
@@ -84,6 +84,7 @@
                 <br><br>
                 <p><?php echo $result[0]['content']; ?></p><br>
                 <h3>Comment</h3><hr>
+                <a href="/blog" type="button" class="btn btn-info">Back to Home Page</a>
               </div>
                             
               <div class="card-footer card-comments">
@@ -91,10 +92,10 @@
 
                   <div class="comment-text" style="margin-left:0px" !important>
                     <span class="username">
-                      <?php echo $auResult[0]['name'] ?>
-                      <span class="text-muted float-right"><?php echo $auResult[0]['created_at'] ?></span>
+                      <?php echo $auResult[0]['name']; ?>
+                      <span class="text-muted float-right"><?php echo $cmResult[0]['created_at']; ?></span>
                     </span><!-- /.username -->
-                    <?php echo $auResult[0]['content'] ?>
+                    <?php echo $cmResult[0]['content']; ?>
                   </div>
                   <!-- /.comment-text -->
                 </div>
@@ -127,14 +128,14 @@
   </div>
   <!-- /.content-wrapper -->
 
-  <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.0.5
-    </div>
-    <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-    reserved.
-  </footer>
-
+  <footer class="main-footer" style="margin-left:0px !important">
+      <!-- To the right -->
+      <div class="float-right d-none d-sm-inline">
+        <a href="logout.php" type="button" class="btn btn-default">Logout</a>
+      </div>
+      <!-- Default to the left -->
+      <strong>Copyright &copy; 2020 <a href="#">A Programmer</a>.</strong> All rights reserved.
+    </footer>
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
