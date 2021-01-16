@@ -6,7 +6,21 @@
         header('location: login.php');
     }
 
-    if (!empty($_GET['pageno'])) {
+    if($_SESSION['role'] != 1) {
+      header('location: login.php');
+    }
+
+    if($_POST) {
+      setcookie('search', $_POST['search'], time() + (86400 * 30), "/"); // 86400 = 1 day
+    } else {
+      if(empty($_GET['pageno'])) {
+        unset($_COOKIE['search']); 
+        setcookie('search', null, -1, '/'); 
+      }
+    }
+
+    
+    if(!empty($_GET['pageno'])) {
         $pageno = $_GET['pageno'];
       }else{
         $pageno = 1;
@@ -15,7 +29,7 @@
       $numOfrecs = 2;
       $offset = ($pageno - 1) * $numOfrecs;
 
-      if (empty($_POST['search']) && empty($_COOKIE['search'])) {
+      if(empty($_POST['search']) && empty($_COOKIE['search'])) {
         $stmt = $pdo->prepare("SELECT * FROM users ORDER BY id DESC");
         $stmt->execute();
         $rawResult = $stmt->fetchAll();
@@ -53,6 +67,7 @@
               <div class="card-header">
                 <h3 class="card-title">User Listings</h3>
               </div>
+
               <!-- /.card-header -->
               <div class="card-body">
                 <div>

@@ -7,6 +7,10 @@
         header('location: login.php');
     }
 
+    if($_SESSION['role'] != 1) {
+        header('location: login.php');
+      }
+
     if($_POST) {
         $name = $_POST['name'];
         $email = $_POST['email'];

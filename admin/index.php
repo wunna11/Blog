@@ -1,42 +1,53 @@
 <?php
-  session_start();
-  require '../config/config.php';
+    session_start();
+    require '../config/config.php';
 
-  if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-    header('location: login.php');
-  }
+    if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+      header('location: login.php');
+    }
 
-  if(!empty($_GET['pageno'])) {
-    $pageno = $_GET['pageno'];
-  } else {
-    $pageno = 1;
-  }
-  $numOfrecs = 2;
-  $offset = ($pageno - 1) * $numOfrecs;
+    if($_SESSION['role'] != 1) {
+      header('location: login.php');
+    }
 
-  if(empty($_POST['search'])) {
-    $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
-    $stmt->execute();
-    $rawresult = $stmt->fetchAll();
-    $total_pages = ceil(count($rawresult) / $numOfrecs);
-
-    $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-  } else {
-    $searchKey = $_POST['search'];
-    $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
-    $stmt->execute();
-    $rawresult = $stmt->fetchAll();
-    $total_pages = ceil(count($rawresult) / $numOfrecs);
-
-    $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-  }
+    if($_POST) {
+      setcookie('search', $_POST['search'], time() + (86400 * 30), "/"); // 86400 = 1 day
+    } else {
+      if(empty($_GET['pageno'])) {
+        unset($_COOKIE['search']); 
+        setcookie('search', null, -1, '/'); 
+      }
+    }
 
 
-  
+    if(!empty($_GET['pageno'])) {
+      $pageno = $_GET['pageno'];
+    } else {
+      $pageno = 1;
+    }
+    $numOfrecs = 2;
+    $offset = ($pageno - 1) * $numOfrecs;
+
+    if (empty($_POST['search']) && empty($_COOKIE['search'])) {
+      $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC");
+      $stmt->execute();
+      $rawresult = $stmt->fetchAll();
+      $total_pages = ceil(count($rawresult) / $numOfrecs);
+
+      $stmt = $pdo->prepare("SELECT * FROM posts ORDER BY id DESC LIMIT $offset,$numOfrecs");
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+    } else {
+      $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
+      $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
+      $stmt->execute();
+      $rawresult = $stmt->fetchAll();
+      $total_pages = ceil(count($rawresult) / $numOfrecs);
+
+      $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC LIMIT $offset,$numOfrecs");
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+    }
 
 ?>
 
@@ -67,27 +78,27 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php if($result) :?>
+                    <?php if($result): ?>
                       <?php foreach($result as $value): ?>
-                    <tr>
-                      <td><?php echo $value['id']; ?></td>
-                      <td><?php echo $value['title']; ?></td>
-                      <td><?php echo substr($value['content'],0,50); ?></td>
-                      <td>
-                        <div class="btn-group">
-                          <div class="container">
-                            <a href="edit.php?id=<?php echo $value['id']; ?>" type="button" class="btn btn-warning">Edit</a>
-                          </div>
-                          <div>
-                            <a href="delete.php?id=<?php echo $value['id']; ?>" type="button" class="btn btn-danger">Delete</a>
-                          </div>
-                        </div>
-                          
-                      </td>
-                    </tr>
-                    <?php endforeach; ?>
-                  <?php else: ?>
-                  <?php endif; ?>  
+                        <tr>
+                          <td><?php echo $value['id']; ?></td>
+                          <td><?php echo $value['title']; ?></td>
+                          <td><?php echo substr($value['content'],0,50); ?></td>
+                          <td>
+                            <div class="btn-group">
+                              <div class="container">
+                                <a href="edit.php?id=<?php echo $value['id']; ?>" type="button" class="btn btn-warning">Edit</a>
+                              </div>
+                              <div>
+                                <a href="delete.php?id=<?php echo $value['id']; ?>" type="button" class="btn btn-danger">Delete</a>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      <?php endforeach; ?>
+                    <?php else: ?>
+                  <?php endif; ?>      
+                   
                   </tbody>
                 </table><br>
                 

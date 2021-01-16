@@ -1,44 +1,48 @@
 <?php
 
-    session_start();
-    require '../config/config.php';
+  session_start();
+  require '../config/config.php';
 
-    if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
-        header('location: login.php');
-    }
+  if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
+      header('location: login.php');
+  }
 
-    if($_POST) {
-        $id =$_POST['id'];
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        if(empty($_POST['role'])) {
-            $role = 0;
-        } else {
-            $role = 1;
-        }
-        
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email AND id!=:id");
-        $stmt->bindValue(':email', $email);
-        $stmt->bindValue(':id', $id);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+  if($_SESSION['role'] != 1) {
+    header('location: login.php');
+  }
 
-        if($user) {
-            echo "<script>alert('Your email is already exists.')</script>";
-        } else {
-            $stmt = $pdo->prepare("UPDATE users SET name='$name', email='$email', role='$role' WHERE id='$id'");
-            $result = $stmt->execute();
-            if($result) {
-                echo "<script>alert('Successfully updated');window.location.href='user_list.php';</script>";
-            }
-        }
-    }
+  if($_POST) {
+      $id =$_POST['id'];
+      $name = $_POST['name'];
+      $email = $_POST['email'];
+      if(empty($_POST['role'])) {
+          $role = 0;
+      } else {
+          $role = 1;
+      }
+      
+      $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email AND id!=:id");
+      $stmt->bindValue(':email', $email);
+      $stmt->bindValue(':id', $id);
+      $stmt->execute();
+      $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id=".$_GET['id']);
-    $stmt->execute();
-    $result = $stmt->fetchAll();
-    // print"<pre>";
-    // print_r($result);
+      if($user) {
+          echo "<script>alert('Your email is already exists.')</script>";
+      } else {
+          $stmt = $pdo->prepare("UPDATE users SET name='$name', email='$email', role='$role' WHERE id='$id'");
+          $result = $stmt->execute();
+          if($result) {
+              echo "<script>alert('Successfully updated');window.location.href='user_list.php';</script>";
+          }
+      }
+  }
+
+  $stmt = $pdo->prepare("SELECT * FROM users WHERE id=".$_GET['id']);
+  $stmt->execute();
+  $result = $stmt->fetchAll();
+  // print"<pre>";
+  // print_r($result);
 
 
     
