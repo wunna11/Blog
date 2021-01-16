@@ -29,9 +29,15 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
         </ul>
+
+        <?php
+          $link = $_SERVER['PHP_SELF'];
+          $link_array = explode('/',$link);
+          $page = end($link_array);
+        ?>
     
         <!-- SEARCH FORM -->
-        <form class="form-inline ml-3" method="POST" action="index.php">
+        <form class="form-inline ml-3" method="POST" action="<?php echo $page == 'index.php' ? 'index.php' : 'user_list.php' ?>">
           <div class="input-group input-group-sm">
             <input name="search" class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
             <div class="input-group-append">
@@ -82,7 +88,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="user_add.php" class="nav-link">
+                <a href="user_list.php" class="nav-link">
                   <i class="nav-icon fas fa-th"></i>
                   <p>
                     User

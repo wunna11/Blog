@@ -26,7 +26,7 @@
         if($user) {
             echo "<script>alert('Your email is already exists.')</script>";
         } else {
-            $stmt = $pdo->prepare("UPDATE users SET name=$name, email=$email, role=$role WHERE id='$id'");
+            $stmt = $pdo->prepare("UPDATE users SET name='$name', email='$email', role='$role' WHERE id='$id'");
             $result = $stmt->execute();
             if($result) {
                 echo "<script>alert('Successfully updated');window.location.href='user_list.php';</script>";
@@ -37,13 +37,15 @@
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id=".$_GET['id']);
     $stmt->execute();
     $result = $stmt->fetchAll();
+    // print"<pre>";
+    // print_r($result);
 
 
     
 ?>
 
 
-<?php include('header.html') ?>
+<?php include('header.php') ?>
 
     <!-- Main content -->
     <div class="content">
@@ -56,8 +58,8 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form action="user_add.php" method="post">
-                    <input type="hidden" name="id" value="<?php echo $user[0]['id']?>">
+                <form action="" method="post">
+                    <input type="hidden" name="id" value="<?php echo $result[0]['id']?>">
                     <div class="form-group">
                         <label for="">Name</label>
                         <input type="text" name="name" class="form-control" value="<?php echo $result[0]['name']; ?>" required>
@@ -65,7 +67,7 @@
 
                     <div class="form-group">
                         <label for="">Email</label>
-                        <input type="email" name="email" class="form-control" vlaue="<?php echo $user[0]['email']; ?>" required>
+                        <input type="email" name="email" class="form-control" value="<?php echo $result[0]['email']; ?>" required>
                     </div>
 
                     <div class="form-group">

@@ -42,7 +42,7 @@
 
 
 
-<?php include('header.html') ?>
+<?php include('header.php') ?>
 
     <!-- Main content -->
     <div class="content">
@@ -56,7 +56,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <div>
-                  <a href="add.php" type="button" class="btn btn-success">Create New Blog Post</a>
+                  <a href="user_add.php" type="button" class="btn btn-success">Create New User</a>
                 </div>
                 <table class="table table-bordered mt-3">
                   <thead>                  

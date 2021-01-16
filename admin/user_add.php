@@ -10,6 +10,7 @@
     if($_POST) {
         $name = $_POST['name'];
         $email = $_POST['email'];
+        $password = $_POST['password'];
         if(empty($_POST['role'])) {
             $role = 0;
         } else {
@@ -24,9 +25,9 @@
         if($user) {
             echo "<script>alert('Your email is already exists.')</script>";
         } else {
-            $stmt = $pdo->prepare("INSERT INTO users(name,email,role) VALUES (:name,:email,:role)");
+            $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES (:name,:email,:password,:role)");
             $result = $stmt->execute(
-                array(':name'=>$name,':email'=>$email,':role'=>$role)
+                array(':name'=>$name,':email'=>$email,':password'=>$password,'role'=>$role)
             );
             if($result) {
                 echo "<script>alert('Successfully register');window.location.href='user_list.php';</script>";
@@ -39,7 +40,7 @@
 ?>
 
 
-<?php include('header.html') ?>
+<?php include('header.php') ?>
 
     <!-- Main content -->
     <div class="content">
@@ -61,6 +62,11 @@
                     <div class="form-group">
                         <label for="">Email</label>
                         <input type="email" name="email" class="form-control" vlaue="" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">Password</label>
+                        <input type="password" name="password" class="form-control" vlaue="" required>
                     </div>
 
                     <div class="form-group">
