@@ -10,7 +10,7 @@
       header('location: login.php');
     }
 
-    if($_POST) {
+    if(!empty($_POST['search'])) {
       setcookie('search', $_POST['search'], time() + (86400 * 30), "/"); // 86400 = 1 day
     } else {
       if(empty($_GET['pageno'])) {
@@ -38,7 +38,7 @@
       $stmt->execute();
       $result = $stmt->fetchAll();
     } else {
-      $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
+      $searchKey = (!empty($_POST['search'])) ? $_POST['search'] : $_COOKIE['search'];
       $stmt = $pdo->prepare("SELECT * FROM posts WHERE title LIKE '%$searchKey%' ORDER BY id DESC");
       $stmt->execute();
       $rawresult = $stmt->fetchAll();
