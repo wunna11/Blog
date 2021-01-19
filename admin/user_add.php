@@ -11,34 +11,49 @@
         header('location: login.php');
       }
 
-    if($_POST) {
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        if(empty($_POST['role'])) {
-            $role = 0;
-        } else {
-            $role = 1;
-        }
-        
-        $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
-        $stmt->bindValue(':email', $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if($user) {
-            echo "<script>alert('Your email is already exists.')</script>";
-        } else {
-            $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES (:name,:email,:password,:role)");
-            $result = $stmt->execute(
-                array(':name'=>$name,':email'=>$email,':password'=>$password,'role'=>$role)
-            );
-            if($result) {
-                echo "<script>alert('Successfully register');window.location.href='user_list.php';</script>";
+    if($_POST) {    
+        if(empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) || strlen($_POST['password']) < 4) {
+            if(empty($_POST['name'])) {
+              $nameError = "Name cannot be null";
             }
-        }
-    }
+            if(empty($_POST['email'])) {
+              $emailError = "Email cannot be null";
+            }
+            if(empty($_POST['password'])) {
+              $passwordError = "Password cannot be null";
+            }
+            if(strlen($_POST['password']) < 4) {
+                $passwordError = "Password must be 4 charcters or digits at least";
+            }
+      
+          } else {
+            $name = $_POST['name'];
+            $email = $_POST['email'];
+            $password = $_POST['password'];
+            if(empty($_POST['role'])) {
+                $role = 0;
+            } else {
+                $role = 1;
+            }
 
+            $stmt = $pdo->prepare("SELECT * FROM users WHERE email=:email");
+            $stmt->bindValue(':email', $email);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if($user) {
+                echo "<script>alert('Your email is already exists.')</script>";
+            } else {
+                $stmt = $pdo->prepare("INSERT INTO users(name,email,password,role) VALUES (:name,:email,:password,:role)");
+                $result = $stmt->execute(
+                    array(':name'=>$name,':email'=>$email,':password'=>$password,'role'=>$role)
+                );
+                if($result) {
+                    echo "<script>alert('Successfully register');window.location.href='user_list.php';</script>";
+                }
+            }
+          }
+        }    
 
     
 ?>
@@ -59,18 +74,18 @@
               <div class="card-body">
                 <form action="user_add.php" method="post">
                     <div class="form-group">
-                        <label for="">Name</label>
-                        <input type="text" name="name" class="form-control" value="" required>
+                        <label for="">Name</label><p style="color:red"><?php echo empty($nameError) ? '' : '*'.$nameError; ?></p>
+                        <input type="text" name="name" class="form-control" value="">
                     </div>
 
                     <div class="form-group">
-                        <label for="">Email</label>
-                        <input type="email" name="email" class="form-control" vlaue="" required>
+                        <label for="">Email</label><p style="color:red"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
+                        <input type="email" name="email" class="form-control" vlaue="">
                     </div>
 
                     <div class="form-group">
-                        <label for="">Password</label>
-                        <input type="password" name="password" class="form-control" vlaue="" required>
+                        <label for="">Password</label><p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
+                        <input type="password" name="password" class="form-control" vlaue="">
                     </div>
 
                     <div class="form-group">

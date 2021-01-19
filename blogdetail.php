@@ -28,14 +28,21 @@
 
 
   if($_POST) {
-    $comment = $_POST['comment'];
-    $stmt = $pdo->prepare("INSERT INTO comments(content,author_id,post_id) VALUES (:content,:author_id,:post_id)");
-    $result = $stmt->execute(
-        array(':content'=>$comment,':author_id'=>$_SESSION['user_id'],':post_id'=>$blogId)
-    );
-    if($result) {
-        header('location: blogdetail.php?id='.$blogId);
+    if(empty($_POST['comment'])) {
+      if(empty($_POST['comment'])) {
+        $commentError = "Comment cannot be null";
+      }
+    } else {
+        $comment = $_POST['comment'];
+      $stmt = $pdo->prepare("INSERT INTO comments(content,author_id,post_id) VALUES (:content,:author_id,:post_id)");
+      $result = $stmt->execute(
+          array(':content'=>$comment,':author_id'=>$_SESSION['user_id'],':post_id'=>$blogId)
+      );
+      if($result) {
+          header('location: blogdetail.php?id='.$blogId);
+      }
     }
+    
   } 
 
 ?>
@@ -121,6 +128,7 @@
               <div class="card-footer">
                 <form action="" method="post">
                   <div class="img-push">
+                    <p style="color:red"><?php echo empty($commentError) ? '' : '*'.$commentError; ?></p>
                     <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
                   </div>
                 </form>
