@@ -1,6 +1,7 @@
 <?php
     session_start();
     require '../config/config.php';
+    require '../config/common.php';
 
     if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
         header('location: login.php');
@@ -88,8 +89,8 @@
                       <?php foreach($result as $value): ?>
                     <tr>
                       <td><?php echo $value['id'] ?></td>
-                      <td><?php echo $value['name']; ?></td>
-                      <td><?php echo $value['email']; ?></td>
+                      <td><?php echo escape($value['name']); ?></td>
+                      <td><?php echo escape($value['email']); ?></td>
                       <td><?php echo $value['role'] == 1 ? 'admin': 'user';?></td>
                       <td>
                         <div class="btn-group">
@@ -97,7 +98,7 @@
                             <a href="user_edit.php?id=<?php echo $value['id']; ?>" type="button" class="btn btn-warning">Edit</a>
                           </div>
                           <div>
-                            <a href="user_delete.php?id=<?php echo $value['id']; ?>" type="button" class="btn btn-danger">Delete</a>
+                            <a href="user_delete.php?id=<?php echo $value['id']; ?>" onclick="return confirm('Are you sure you want to delete this user')" type="button" class="btn btn-danger">Delete</a>
                           </div>
                         </div>
                           
