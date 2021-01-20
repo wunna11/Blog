@@ -114,7 +114,7 @@
     <footer class="main-footer" style="margin-left:0px !important">
       <!-- To the right -->
       <div class="float-right d-none d-sm-inline">
-        <a href="logout.php" type="button" class="btn btn-default">Logout</a>
+        <a href="logout.php" type="button" class="btn btn-danger">Logout</a>
       </div>
       <!-- Default to the left -->
       <strong>Copyright &copy; 2020 <a href="#">A Programmer</a>.</strong> All rights reserved.

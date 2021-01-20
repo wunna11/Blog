@@ -41,7 +41,7 @@
         $stmt->execute();
         $result = $stmt->fetchAll();
       }else{
-        $searchKey = $_POST['search'] ? $_POST['search'] : $_COOKIE['search'];
+        $searchKey = (!empty($_POST['search'])) ? $_POST['search'] : $_COOKIE['search'];
         $stmt = $pdo->prepare("SELECT * FROM users WHERE name LIKE '%$searchKey%' ORDER BY id DESC");
         $stmt->execute();
         $rawResult = $stmt->fetchAll();
