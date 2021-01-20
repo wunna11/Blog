@@ -1,6 +1,8 @@
 <?php
   session_start();
   require 'config/config.php';
+  require 'config/common.php';
+
 
   if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
     header('location: login.php');
@@ -108,7 +110,7 @@
                     <?php foreach ($cmResult as $key => $value) { ?>
                       <span class="username">
                         <?php echo $auResult[$key][0]['name']; ?>
-                        <span class="text-muted float-right"><?php echo $value[0]['created_at']; ?></span>
+                        <span class="text-muted float-right"><?php echo $value['created_at']; ?></span>
                       </span><!-- /.username -->
                       <?php echo $value['content']; ?><br>
                       <?php
@@ -127,10 +129,11 @@
               <!-- /.card-footer -->
               <div class="card-footer">
                 <form action="" method="post">
-                  <div class="img-push">
-                    <p style="color:red"><?php echo empty($commentError) ? '' : '*'.$commentError; ?></p>
-                    <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
-                  </div>
+                  <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+                    <div class="img-push">
+                      <p style="color:red"><?php echo empty($commentError) ? '' : '*'.$commentError; ?></p>
+                      <input type="text" name="comment" class="form-control form-control-sm" placeholder="Press enter to post comment">
+                    </div>
                 </form>
               </div>
               <!-- /.card-footer -->

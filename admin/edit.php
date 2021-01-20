@@ -1,6 +1,7 @@
 <?php
   session_start();
   require '../config/config.php';
+  require '../config/common.php';
 
   if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
     header('location: login.php');
@@ -69,27 +70,28 @@
             <div class="card">
                 <div class="card-body">
                     <form class="" action="" method="POST" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <input type="hidden" name="id" value="<?php echo $result[0]['id'] ?>">
-                            <label for="">Title</label><p style="color:red"><?php echo empty($titleError) ? '' : '*'.$titleError; ?></p>
-                            <input type="text" class="form-control" name="title" value="<?php echo $result[0]['title'] ?>" >
-                        </div>
+                      <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+                          <div class="form-group">
+                              <input type="hidden" name="id" value="<?php echo $result[0]['id'] ?>">
+                              <label for="">Title</label><p style="color:red"><?php echo empty($titleError) ? '' : '*'.$titleError; ?></p>
+                              <input type="text" class="form-control" name="title" value="<?php echo $result[0]['title'] ?>" >
+                          </div>
 
-                        <div class="form-group">
-                            <label for="">Content</label><p style="color:red"><?php echo empty($contentError) ? '' : '*'.$contentError; ?></p>
-                            <textarea name="content" class="form-control" id="" cols="30" rows="10"><?php echo $result[0]['content'] ?></textarea>
-                        </div>
+                          <div class="form-group">
+                              <label for="">Content</label><p style="color:red"><?php echo empty($contentError) ? '' : '*'.$contentError; ?></p>
+                              <textarea name="content" class="form-control" id="" cols="30" rows="10"><?php echo $result[0]['content'] ?></textarea>
+                          </div>
 
-                        <div class="form-group">
-                            <label for="">Image</label><p style="color:red"><?php echo empty($imageError) ? '' : '*'.$imageError; ?></p>
-                            <img src="images/<?php echo $result[0]['image'] ?>" width="150" height="150" alt=""><br><br>
-                            <input type="file" name="image" value="">
-                        </div>
+                          <div class="form-group">
+                              <label for="">Image</label><p style="color:red"><?php echo empty($imageError) ? '' : '*'.$imageError; ?></p>
+                              <img src="images/<?php echo $result[0]['image'] ?>" width="150" height="150" alt=""><br><br>
+                              <input type="file" name="image" value="">
+                          </div>
 
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-warning" value="SUBMIT">
-                            <a href="index.php" type="button" class="btn btn-info">BACK</a>
-                        </div>
+                          <div class="form-group">
+                              <input type="submit" class="btn btn-warning" value="SUBMIT">
+                              <a href="index.php" type="button" class="btn btn-info">BACK</a>
+                          </div>
                     </form>
                 </div>
                 

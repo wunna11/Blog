@@ -2,6 +2,7 @@
 
   session_start();
   require '../config/config.php';
+  require '../config/common.php';
 
   if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
       header('location: login.php');
@@ -79,32 +80,33 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <form action="" method="post">
+                  <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
                     <input type="hidden" name="id" value="<?php echo $result[0]['id']?>">
-                    <div class="form-group">
-                        <label for="">Name</label><p style="color:red"><?php echo empty($nameError) ? '' : '*'.$nameError; ?></p>
-                        <input type="text" name="name" class="form-control" value="<?php echo $result[0]['name']; ?>">
-                    </div>
+                      <div class="form-group">
+                          <label for="">Name</label><p style="color:red"><?php echo empty($nameError) ? '' : '*'.$nameError; ?></p>
+                          <input type="text" name="name" class="form-control" value="<?php echo $result[0]['name']; ?>">
+                      </div>
 
-                    <div class="form-group">
-                        <label for="">Email</label><p style="color:red"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
-                        <input type="email" name="email" class="form-control" value="<?php echo $result[0]['email']; ?>">
-                    </div>
+                      <div class="form-group">
+                          <label for="">Email</label><p style="color:red"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
+                          <input type="email" name="email" class="form-control" value="<?php echo $result[0]['email']; ?>">
+                      </div>
 
-                    <div class="form-group">
-                        <label for="">Password</label><p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
-                        <span style="font-size:10px">The password has already exists</span>
-                        <input type="password" name="password" class="form-control">
-                    </div>
+                      <div class="form-group">
+                          <label for="">Password</label><p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
+                          <span style="font-size:10px">The password has already exists</span>
+                          <input type="password" name="password" class="form-control">
+                      </div>
 
-                    <div class="form-group">
-                        <label for="">Admin</label>
-                        <input type="checkbox" name="role" value="<?php  echo $result[0]['role']; ?>" >
-                    </div>
+                      <div class="form-group">
+                          <label for="">Admin</label>
+                          <input type="checkbox" name="role" value="<?php  echo $result[0]['role']; ?>" >
+                      </div>
 
-                    <div class="form-group">
-                        <input type="submit" class="btn btn-primary" value="SUBMIT">
-                        <a href="user_list.php" type="button" class="btn btn-warning">Back</a>
-                    </div>    
+                      <div class="form-group">
+                          <input type="submit" class="btn btn-primary" value="SUBMIT">
+                          <a href="user_list.php" type="button" class="btn btn-warning">Back</a>
+                      </div>    
                     
                     
                 </form>

@@ -1,6 +1,8 @@
 <?php
   session_start();
   require 'config/config.php';
+  require 'config/common.php';
+
   if($_POST) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -56,30 +58,31 @@
       <p class="login-box-msg">Sign in to start your session</p>
 
       <form action="login.php" method="post">
-        <div class="input-group mb-3">
-          <input type="email"  name="email"class="form-control" placeholder="Email">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
+        <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+          <div class="input-group mb-3">
+            <input type="email"  name="email"class="form-control" placeholder="Email">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-envelope"></span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
+          <div class="input-group mb-3">
+            <input type="password" name="password" class="form-control" placeholder="Password">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
             </div>
-          </div>
-        </div> 
+          </div> 
 
-        <div class="row">
-            <div class="container">
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                <a href="register.php" class="btn btn-success btn-block">Register</a>
-            </div>
-          <!-- /.col -->
-        </div>
+          <div class="row">
+              <div class="container">
+                  <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                  <a href="register.php" class="btn btn-success btn-block">Register</a>
+              </div>
+            <!-- /.col -->
+          </div>
       </form>
 
       

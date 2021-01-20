@@ -1,6 +1,7 @@
 <?php
   session_start();
   require 'config/config.php';
+  require 'config/common.php';
 
   if($_POST) {
     if(empty($_POST['name']) || empty($_POST['email']) || empty($_POST['password']) || strlen($_POST['password']) < 4) {
@@ -77,43 +78,44 @@
         <p class="login-box-msg">Sign in to start your session</p>
 
         <form action="register.php" method="post">
-          <p style="color:red"><?php echo empty($nameError) ? '' : '*'.$nameError; ?></p>
-          <div class="input-group mb-3">
-              <input type="text" name="name" class="form-control" placeholder="Name">
-              <div class="input-group-append">
-                <div class="input-group-text">
-                  <span class="fas fa-envelope"></span>
+          <input name="_token" type="hidden" value="<?php echo $_SESSION['_token']; ?>">
+            <p style="color:red"><?php echo empty($nameError) ? '' : '*'.$nameError; ?></p>
+              <div class="input-group mb-3">
+                  <input type="text" name="name" class="form-control" placeholder="Name">
+                  <div class="input-group-append">
+                    <div class="input-group-text">
+                      <span class="fas fa-envelope"></span>
+                    </div>
+                  </div>
+                </div>
+
+              <p style="color:red"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
+              <div class="input-group mb-3">
+                <input type="email" name="email" class="form-control" placeholder="Email">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-envelope"></span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-          <p style="color:red"><?php echo empty($emailError) ? '' : '*'.$emailError; ?></p>
-          <div class="input-group mb-3">
-            <input type="email" name="email" class="form-control" placeholder="Email">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+              <p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
+              <div class="input-group mb-3">
+                <input type="password" name="password" class="form-control" placeholder="Password">
+                <div class="input-group-append">
+                  <div class="input-group-text">
+                    <span class="fas fa-lock"></span>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <p style="color:red"><?php echo empty($passwordError) ? '' : '*'.$passwordError; ?></p>
-          <div class="input-group mb-3">
-            <input type="password" name="password" class="form-control" placeholder="Password">
-            <div class="input-group-append">
-              <div class="input-group-text">
-                <span class="fas fa-lock"></span>
+              <div class="row">
+                <div class="container">
+                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                    <a href="login.php" type="button" class="btn btn-success btn-block">Back</a>
+                </div>
+                  
               </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="container">
-                <button type="submit" class="btn btn-primary btn-block">Register</button>
-                <a href="login.php" type="button" class="btn btn-success btn-block">Back</a>
-            </div>
-              
-          </div>
         </form>
 
         
