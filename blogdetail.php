@@ -62,7 +62,7 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="dist/css/a$result[0]['content']dminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -88,7 +88,7 @@
             <div class="card card-widget">
               <div class="card-header">
                 <div style="text-align:center !important;float:none" class="card-title">
-                  <h4><?php echo $result[0]['title']; ?></h4>
+                  <h4><?php echo escape($result[0]['title']); ?></h4>
                 </div>
               </div>
             
@@ -97,7 +97,7 @@
               <div class="card-body">
                 <img class="img-fluid pad"  src="admin/images/<?php echo $result[0]['image']; ?>" >
                 <br><br>
-                <p><?php echo $result[0]['content']; ?></p><br>
+                <p><?php echo escape($result[0]['content']); ?></p><br>
                 <h3>Comment</h3><hr>
                 <a href="/blog" type="button" class="btn btn-info">Back to Home Page</a>
               </div>
@@ -109,10 +109,10 @@
                   <div class="comment-text" style="margin-left:0px" !important>
                     <?php foreach ($cmResult as $key => $value) { ?>
                       <span class="username">
-                        <?php echo $auResult[$key][0]['name']; ?>
-                        <span class="text-muted float-right"><?php echo $value['created_at']; ?></span>
+                        <?php echo escape($auResult[$key][0]['name']); ?>
+                        <span class="text-muted float-right"><?php echo escape($value['created_at']); ?></span>
                       </span><!-- /.username -->
-                      <?php echo $value['content']; ?><br>
+                      <?php echo escape($value['content']); ?><br>
                       <?php
                         }
                       ?>
@@ -137,7 +137,7 @@
                 </form>
               </div>
               <!-- /.card-footer -->
-            </div>
+            </div>$result[0]['content']
               
 
             

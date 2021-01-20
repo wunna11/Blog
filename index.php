@@ -1,6 +1,7 @@
 <?php
   session_start();
   require 'config/config.php';
+  require 'config/common.php';
 
   if(empty($_SESSION['user_id']) && empty($_SESSION['logged_in'])) {
     header('location: login.php');
@@ -68,7 +69,7 @@
                 <div class="card card-widget">
                   <div class="card-header">
                     <div class="card-title" style="text-align:center !important; float:none">
-                        <h4><?php echo $value['title']; ?></h4>
+                        <h4><?php echo escape($value['title']); ?></h4>
 
                     <!-- /.card-tools -->
                     </div>    
