@@ -27,7 +27,7 @@
         $content = $_POST['content'];
 
         if($_FILES['image']['name'] != null) {
-          $file = 'images/'.($_FILES['image']['namusere']);
+          $file = 'images/'.($_FILES['image']['name']);
           $imageType = pathinfo($file,PATHINFO_EXTENSION);
       
           if($imageType != 'png' && $imageType != 'jpg' && $imageType != 'jpeg') {
