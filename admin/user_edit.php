@@ -100,7 +100,7 @@
 
                       <div class="form-group">
                           <label for="">Admin</label>
-                          <input type="checkbox" name="role" value="<?php  echo $result[0]['role']; ?>" >
+                          <input type="checkbox" name="role" value="1" <?php echo $result[0]['role'] == 1 ? 'checked' : ''; ?> >
                       </div>
 
                       <div class="form-group">
